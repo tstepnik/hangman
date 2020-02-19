@@ -1,6 +1,4 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Hangman {
@@ -9,32 +7,7 @@ public class Hangman {
     private List<Character> coveredWord = new ArrayList<>();
     private List<Character> copyCharacters = new ArrayList<>();
 
-    public Hangman() {
-    }
-
-    public List<Character> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
-    }
-
-    public List<Character> getCoveredWord() {
-        return coveredWord;
-    }
-
-    public void setCoveredWord(List<Character> coveredWord) {
-        this.coveredWord = coveredWord;
-    }
-
-    public List<Character> getCopyCharacters() {
-        return copyCharacters;
-    }
-
-    public void setCopyCharacters(List<Character> copyCharacters) {
-        this.copyCharacters = copyCharacters;
-    }
+    public Hangman() {}
 
     public void changeStringToCharactersList(String randomWord) {
         for (char c : randomWord.toCharArray()) {
@@ -55,7 +28,7 @@ public class Hangman {
     public void printCharacters() {
         characters.forEach(System.out::print);
     }
-    
+
     boolean isLetterBeen(char c) {
         return characters.contains(c);
     }

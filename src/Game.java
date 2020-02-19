@@ -6,7 +6,6 @@ public class Game {
     public final int PLAY = 1;
     Scanner sc = new Scanner(System.in);
 
-
     public void hangmanGame() {
         database.addWord("drzewo");
         database.addWord("zamek");
