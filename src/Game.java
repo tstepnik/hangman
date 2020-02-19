@@ -1,72 +1,64 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
+    private List<String> words = new ArrayList<>();
+    Random random = new Random();
+    WordsDatabase database = new WordsDatabase(words, random);
+    public final int exit = 0;
+    public final int play = 1;
+    private int opition = 1;
     Scanner sc = new Scanner(System.in);
-    WordsDatabase database = new WordsDatabase();
-    Hangman hg = new Hangman();
-    String randomWord = database.randomWord();
-    List<Character> characters = hg.changeWordToList(randomWord);
-    List<Character> coverByStars = hg.coverByStars(characters);
-    List<Character> copy = new ArrayList<>(characters);
-
-    public static final int exit = 0;
-    public static final int play = 1;
 
     public void hangman() {
-        database.setCharacters(characters);
-        database.setStars(coverByStars);
-        int option = play;
+        try {
+            while (opition != exit) {
 
-        while (option != exit) {
 
-            switch (option) {
-                case exit:
-                    System.out.println("Koniec programu");
-                    sc.close();
-                    break;
-                case play:
-                    guessWord();
+                switch (opition) {
+                    case exit:
+                        System.out.println("Koniec gry.");
+                        sc.close();
+                        break;
+                    case play:
+                        game();
+                        break;
+                    default:
+                        System.out.println("Nie ma takiej opcji.");
+                }
+                System.out.println("Dostępne opcję:");
+                System.out.println("0 - wyjście z programu.");
+                System.out.println("1 - graj dalej");
+                opition = sc.nextInt();
+                sc.nextLine();
+
             }
-
-            printInfo(option);
+        } catch (InputMismatchException e) {
+            System.out.println("Nie mozna podawać znaków niezgodnych z poleceniem.");
         }
     }
 
-    private void printInfo(int option) {
-        System.out.println(exit + " - wyjście z gry.");
-        System.out.println(play + " - graj dalej");
-        option = sc.nextInt();
-        sc.nextLine();
-    }
-
-    private void guessWord() {
-        int copyIndex = 0;
-        int shots = 0;
-
-        while (!database.guessWord() && shots < 8) {
-            System.out.println("Hasło do zgadnięcia:");
-            database.printCoveredWord();
+    private void game() {
+        Hangman hangman = new Hangman(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        hangman.changeStringToCharactersList(database.drawWord());
+        hangman.changeCharByStars();
+        int chances = 0;
+        while (!hangman.wordIsGuessed() && chances < 8) {
+            System.out.println("Hasło:");
+            hangman.printCoverWord();
             System.out.println("Podaj literę:");
-
-            char letter = sc.next().charAt(0);
-
-            while (copy.contains(letter)) {
-                copyIndex = copy.indexOf(letter);
-                coverByStars.set(copyIndex, letter);
-                copy.set(copyIndex, 'x');
+            char guessedChar = sc.next().charAt(0);
+            if (hangman.containChar(guessedChar) || hangman.ignoreChosenChar(guessedChar)) {
+                chances--;
             }
-
-            if (copy.contains(letter))
-                shots--;
-            shots++;
+            hangman.changeStarByCharacter(guessedChar);
+            chances++;
         }
-        if (coverByStars.equals(characters)) {
-            System.out.println("Brawo zgadłeś, szukane słowo to: ");
-            System.out.println(randomWord);
-        } else
-            System.out.println("Niestety wykorzystałeś masymalną liczbę prób.");
+        if (hangman.wordIsGuessed()) {
+            System.out.println("brawo zgadłeś, hasło którego szukałeś to:");
+            hangman.printCharacters();
+            System.out.println();
+        } else if (chances >= 8) System.out.println("Niestety przekroczyłeś limit dostępnych zgadnięć.");
+        else System.out.println("coś poszło nie tak.");
     }
-
 }
+

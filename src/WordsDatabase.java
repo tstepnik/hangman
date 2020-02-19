@@ -1,36 +1,14 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class WordsDatabase {
 
-   private  List<String> words = new ArrayList<>();
-   private List<Character> characters;
-   private List<Character> stars = new ArrayList<>();
-   private Random random = new Random();
+    private List<String> words;
+    private Random random;
 
-    public List<String> getWords() {
-        return words;
-    }
-
-    public void setWords(List<String> words) {
+    public WordsDatabase(List<String> words, Random random) {
         this.words = words;
-    }
-
-    public List<Character> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
-    }
-
-    public List<Character> getStars() {
-        return stars;
-    }
-
-    public void setStars(List<Character> stars) {
-        this.stars = stars;
+        this.random = random;
     }
 
     public Random getRandom() {
@@ -41,18 +19,19 @@ public class WordsDatabase {
         this.random = random;
     }
 
-    public String randomWord(){
-        int randomIndex = random.nextInt(words.size());
-        return words.get(randomIndex);
-    }
-    public void add(String word){
-        words.add(word);
-    }
-    public void printCoveredWord(){
-       stars.forEach(x -> System.out.print('*'));
+    public List<String> getWords() {
+        return words;
     }
 
-    public boolean guessWord(){
-        return stars.equals(characters);
+    public void setWords(List<String> words) {
+        this.words = words;
+    }
+
+    public void addWord(String word) {
+        words.add(word);
+    }
+
+    public String drawWord() {
+        return words.get(random.nextInt(words.size()));
     }
 }

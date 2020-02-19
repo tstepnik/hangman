@@ -1,23 +1,82 @@
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Hangman {
 
-    List<Character> changeWordToList (String word){
-        char[] chars = word.toCharArray();
-        List<Character> characters = new ArrayList<>();
-        for (char aChar : chars) {
-            characters.add(aChar);
-        }
+    private List<Character> characters;
+    private List<Character> coveredWord;
+    private List<Character> copyCharacters;
+
+    public Hangman(List<Character> characters, List<Character> coveredWord, List<Character> copyCharacters) {
+        this.characters = characters;
+        this.coveredWord = coveredWord;
+        this.copyCharacters = copyCharacters;
+    }
+
+    public List<Character> getCharacters() {
         return characters;
     }
 
-    public List<Character> coverByStars(List<Character> characters){
-        List<Character> stars = new ArrayList<>();
-        for (int i = 0; i < characters.size(); i++) {
-            stars.add('*');
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
+    }
+
+    public List<Character> getCoveredWord() {
+        return coveredWord;
+    }
+
+    public void setCoveredWord(List<Character> coveredWord) {
+        this.coveredWord = coveredWord;
+    }
+
+    public List<Character> getCopyCharacters() {
+        return copyCharacters;
+    }
+
+    public void setCopyCharacters(List<Character> copyCharacters) {
+        this.copyCharacters = copyCharacters;
+    }
+
+    public void changeStringToCharactersList(String randomWord) {
+        for (char c : randomWord.toCharArray()) {
+            characters.add(c);
+            copyCharacters.add(c);
         }
-        return stars;
+    }
+
+    public void changeCharByStars() {
+        for (int i = 0; i < characters.size(); i++) {
+            coveredWord.add('*');
+        }
+    }
+
+    public void printCoverWord() {
+        coveredWord.forEach(System.out::print);
+        System.out.println();
+    }
+
+    public void printCharacters() {
+        characters.forEach(System.out::print);
+    }
+
+    boolean containChar(char c) {
+        return copyCharacters.contains(c);
+    }
+
+    boolean ignoreChosenChar(char c) {
+        return coveredWord.contains(c);
+    }
+
+    public void changeStarByCharacter(char c) {
+
+        while (copyCharacters.contains(c)) {
+            int index = copyCharacters.indexOf(c);
+            coveredWord.set(index, c);
+            copyCharacters.set(index, 'x');
+        }
+    }
+
+    public boolean wordIsGuessed() {
+        boolean isEquals = coveredWord.equals(characters);
+        return isEquals;
     }
 }
