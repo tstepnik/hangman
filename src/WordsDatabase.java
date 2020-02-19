@@ -4,12 +4,10 @@ import java.util.Random;
 
 public class WordsDatabase {
 
-    private List<String> words;
-    private Random random;
+    private List<String> words = new ArrayList<>();
+    private Random random = new Random();
 
     public WordsDatabase() {
-        this.words = new ArrayList<>();
-        this.random = new Random();
     }
 
     public void addWord(String word) {
