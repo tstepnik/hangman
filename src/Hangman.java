@@ -1,15 +1,15 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Hangman {
 
-    private List<Character> characters;
-    private List<Character> coveredWord;
-    private List<Character> copyCharacters;
+    private List<Character> characters = new ArrayList<>();
+    private List<Character> coveredWord = new ArrayList<>();
+    private List<Character> copyCharacters = new ArrayList<>();
 
-    public Hangman(List<Character> characters, List<Character> coveredWord, List<Character> copyCharacters) {
-        this.characters = characters;
-        this.coveredWord = coveredWord;
-        this.copyCharacters = copyCharacters;
+    public Hangman() {
     }
 
     public List<Character> getCharacters() {
@@ -44,12 +44,10 @@ public class Hangman {
     }
 
     public void changeCharByStars() {
-        for (int i = 0; i < characters.size(); i++) {
-            coveredWord.add('*');
-        }
+        characters.forEach(x -> coveredWord.add('*'));
     }
 
-    public void printCoverWord() {
+    public void printCoveredWord() {
         coveredWord.forEach(System.out::print);
         System.out.println();
     }
@@ -57,13 +55,9 @@ public class Hangman {
     public void printCharacters() {
         characters.forEach(System.out::print);
     }
-
-    boolean containChar(char c) {
-        return copyCharacters.contains(c);
-    }
-
-    boolean ignoreChosenChar(char c) {
-        return coveredWord.contains(c);
+    
+    boolean isLetterBeen(char c) {
+        return characters.contains(c);
     }
 
     public void changeStarByCharacter(char c) {
@@ -75,8 +69,7 @@ public class Hangman {
         }
     }
 
-    public boolean wordIsGuessed() {
-        boolean isEquals = coveredWord.equals(characters);
-        return isEquals;
+    public boolean isWordGuessed() {
+        return coveredWord.equals(characters);
     }
 }
