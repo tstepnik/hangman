@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Game {
@@ -5,8 +9,21 @@ public class Game {
     public final int EXIT = 0;
     public final int PLAY = 1;
     Scanner sc = new Scanner(System.in);
+    String fileName = "words.txt";
 
     public void hangmanGame() {
+        try (
+                var fileReader = new FileReader(fileName);
+                var bufferedReader = new BufferedReader(fileReader);
+        ) {
+
+            while (bufferedReader.readLine() != null) {
+                database.addWord(bufferedReader.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         database.addWord("drzewo");
         database.addWord("zamek");
         database.addWord("kwiatek");
@@ -69,5 +86,6 @@ public class Game {
         }
     }
 }
+
 
 
