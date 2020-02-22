@@ -9,7 +9,7 @@ public class Hangman {
 
     public Hangman() {}
 
-    public void changeStringToCharactersList(String randomWord) {
+    public void changeStringToChars(String randomWord) {
         for (char c : randomWord.toCharArray()) {
             characters.add(c);
             copyCharacters.add(c);
@@ -29,7 +29,7 @@ public class Hangman {
         characters.forEach(System.out::print);
     }
 
-    boolean isLetterBeen(char c) {
+    boolean containsChar(char c) {
         return characters.contains(c);
     }
 

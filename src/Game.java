@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class Game {
-    WordsDatabase database = new WordsDatabase();
-    public final int EXIT = 0;
-    public final int PLAY = 1;
-    Scanner sc = new Scanner(System.in);
-    String fileName = "words.txt";
+    private WordsDatabase database = new WordsDatabase();
+    private Scanner sc = new Scanner(System.in);
 
     public void hangmanGame() {
+        final int EXIT = 0;
+        final int PLAY = 1;
+        String fileName = "words.txt";
         try (
                 var fileReader = new FileReader(fileName);
                 var bufferedReader = new BufferedReader(fileReader);
@@ -28,8 +28,8 @@ public class Game {
         database.addWord("zamek");
         database.addWord("kwiatek");
         database.addWord("programowanie");
-        boolean tryCatchIsUsed = true;
-        while (tryCatchIsUsed) {
+        boolean isException = true;
+        while (isException) {
             try {
                 int option = -1;
                 while (option != EXIT) {
@@ -46,13 +46,13 @@ public class Game {
                             sc.close();
                             break;
                         case PLAY:
-                            operationsOnCoveredCharacterLists();
+                            revealChar();
                             break;
                         default:
                             System.out.println("Nie ma takiej opcji.");
                     }
                 }
-                tryCatchIsUsed = false;
+                isException = false;
             } catch (InputMismatchException e) {
                 System.out.println("Podałeś niepoprawny znak.");
                 sc.nextLine();
@@ -60,9 +60,9 @@ public class Game {
         }
     }
 
-    private void operationsOnCoveredCharacterLists() {
+    private void revealChar() {
         Hangman hangman = new Hangman();
-        hangman.changeStringToCharactersList(database.drawWord());
+        hangman.changeStringToChars(database.drawWord());
         hangman.changeCharByStars();
         int chances = 0;
         while (!hangman.isWordGuessed() && chances < 8) {
@@ -70,7 +70,7 @@ public class Game {
             hangman.printCoveredWord();
             System.out.println("Podaj literę:");
             char guessedChar = sc.next().charAt(0);
-            if (!hangman.isLetterBeen(guessedChar)) {
+            if (!hangman.containsChar(guessedChar)) {
                 chances++;
             }
             hangman.changeStarByCharacter(guessedChar);
