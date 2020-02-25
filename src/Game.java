@@ -24,10 +24,6 @@ public class Game {
             e.printStackTrace();
         }
 
-        database.addWord("drzewo");
-        database.addWord("zamek");
-        database.addWord("kwiatek");
-        database.addWord("programowanie");
         boolean isException = true;
         while (isException) {
             try {
@@ -36,7 +32,7 @@ public class Game {
 
                     System.out.println("Dostępne opcję:");
                     System.out.println("0 - wyjście z programu.");
-                    System.out.println("1 - graj.");
+                    System.out.println("1 - graj");
                     option = sc.nextInt();
                     sc.nextLine();
 
@@ -46,7 +42,7 @@ public class Game {
                             sc.close();
                             break;
                         case PLAY:
-                            revealChar();
+                            guessCoveredWord();
                             break;
                         default:
                             System.out.println("Nie ma takiej opcji.");
@@ -60,7 +56,7 @@ public class Game {
         }
     }
 
-    private void revealChar() {
+    private void guessCoveredWord() {
         Hangman hangman = new Hangman();
         hangman.changeStringToChars(database.drawWord());
         hangman.changeCharByStars();
@@ -73,7 +69,7 @@ public class Game {
             if (!hangman.containsChar(guessedChar)) {
                 chances++;
             }
-            hangman.changeStarByCharacter(guessedChar);
+            hangman.revealChar(guessedChar);
         }
         if (hangman.isWordGuessed()) {
             System.out.println("brawo zgadłeś, hasło którego szukałeś to:");

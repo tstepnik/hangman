@@ -33,7 +33,7 @@ public class Hangman {
         return characters.contains(c);
     }
 
-    public void changeStarByCharacter(char c) {
+    public void revealChar(char c) {
 
         while (copyCharacters.contains(c)) {
             int index = copyCharacters.indexOf(c);
